@@ -295,14 +295,40 @@ void actionSystemInfo() {
   delay(2500);
 }
 
-bool connectWifi(uint32_t timeoutMs) {
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+// Try one network for up to timeoutMs. Returns true if connected.
+bool tryWifi(const char* ssid, const char* password, uint32_t timeoutMs) {
+  if (ssid == nullptr || ssid[0] == '\0') return false;
+  WiFi.disconnect();
+  delay(100);
+  WiFi.begin(ssid, password);
   uint32_t start = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - start < timeoutMs) {
     delay(200);
   }
   return WiFi.status() == WL_CONNECTED;
+}
+
+// Tries network 1, then network 2 (each gets timeoutMs).
+// Starts with whichever network worked last time, so reconnects are fast.
+int lastWifiIndex = 0;   // 0 = network 1, 1 = network 2
+
+bool connectWifi(uint32_t timeoutMs) {
+  WiFi.mode(WIFI_STA);
+
+  const char* ssids[2]  = { WIFI_SSID_1, WIFI_SSID_2 };
+  const char* passes[2] = { WIFI_PASSWORD_1, WIFI_PASSWORD_2 };
+
+  for (int n = 0; n < 2; n++) {
+    int i = (lastWifiIndex + n) % 2;
+    if (ssids[i][0] == '\0') continue;
+    Serial.printf("WiFi: trying network %d (%s)\n", i + 1, ssids[i]);
+    if (tryWifi(ssids[i], passes[i], timeoutMs)) {
+      lastWifiIndex = i;
+      Serial.printf("WiFi: connected to network %d\n", i + 1);
+      return true;
+    }
+  }
+  return false;
 }
 
 void handleAttendanceFlow() {

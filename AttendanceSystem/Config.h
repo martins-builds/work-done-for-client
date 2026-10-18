@@ -37,8 +37,12 @@
 #define ATTENDANCE_CSV    "/attendance.csv"
 
 // ---- Wi-Fi ----
-#define WIFI_SSID       "Galaxy S21+ 5G"
-#define WIFI_PASSWORD   "1234567890"
+// Two networks are tried in order: network 1 first, then network 2.
+// Leave SSID_2 as "" to use only one network.
+#define WIFI_SSID_1       "Infinix HOT 9"
+#define WIFI_PASSWORD_1   "12345678"
+#define WIFI_SSID_2       "Infinix NOTE 12i"
+#define WIFI_PASSWORD_2   "123456789"
 #define WIFI_CONNECT_TIMEOUT_MS   10000
 #define WIFI_RETRY_INTERVAL_MS    30000UL
 
