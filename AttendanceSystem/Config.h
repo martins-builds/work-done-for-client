@@ -39,10 +39,10 @@
 // ---- Wi-Fi ----
 // Two networks are tried in order: network 1 first, then network 2.
 // Leave SSID_2 as "" to use only one network.
-#define WIFI_SSID_1       "Infinix HOT 9"
-#define WIFI_PASSWORD_1   "12345678"
-#define WIFI_SSID_2       "Infinix NOTE 12i"
-#define WIFI_PASSWORD_2   "123456789"
+#define WIFI_SSID_1       "Name 1"
+#define WIFI_PASSWORD_1   "pass 1"
+#define WIFI_SSID_2       "Name 2"
+#define WIFI_PASSWORD_2   "pass 2"
 #define WIFI_CONNECT_TIMEOUT_MS   10000
 #define WIFI_RETRY_INTERVAL_MS    30000UL
 
